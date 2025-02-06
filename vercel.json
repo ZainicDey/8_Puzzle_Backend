@@ -2,15 +2,17 @@
     "version": 2,
     "builds": [
       {
-        "src": "manage.py",
+        "src": "puzzle_solver/wsgi.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "manage.py"
+        "dest": "puzzle_solver/wsgi.py"
       }
-    ]
-  }
-  
+    ],
+    "env": {
+      "DJANGO_SETTINGS_MODULE": "puzzle_solver.settings"
+    }
+  }  
