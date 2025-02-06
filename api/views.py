@@ -44,12 +44,20 @@ def bfs_puzzle(start, goal):
 
 @csrf_exempt
 def solve_puzzle(request):
+    if request.method == 'OPTIONS':  # Handle preflight
+        response = JsonResponse({'message': 'CORS preflight successful'})
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "*"
+        return response
+
     if request.method == 'POST':
-        data = json.loads(request.body)
-        initial_state = data.get('state')
-        solution_paths = bfs_puzzle(initial_state, [1, 2, 3, 4, 5, 6, 7, 8, 0])
-        if solution_paths:
-            return JsonResponse({'solution_paths': solution_paths})
-        else :
-            return JsonResponse({'error': 'No solution found'}, status=400)
+        try:
+            data = json.loads(request.body)
+            initial_state = data.get('state')
+            solution_paths = bfs_puzzle(initial_state, [1, 2, 3, 4, 5, 6, 7, 8, 0])
+            return JsonResponse({'solution_paths': solution_paths}) if solution_paths else JsonResponse({'error': 'No solution found'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
     return JsonResponse({'error': 'Invalid request method'}, status=405)
