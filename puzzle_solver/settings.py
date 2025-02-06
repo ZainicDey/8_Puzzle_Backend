@@ -114,9 +114,7 @@ USE_I18N = True
 
 USE_TZ = True
 CORS_ALLOWED_ORIGINS = [
-    "https://8puzzle-backend.vercel.app",
-    "https://8puzzle-backend.vercel.app/solve",
-    "http://localhost:5173",
+    "http://8puzzle-ai-solved.vercel.app",
 ]   
 CORS_ALLOW_HEADERS = [
     "authorization",
